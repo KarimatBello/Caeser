@@ -1,0 +1,65 @@
+import java.util.*;
+
+class Solution{
+        
+        static String cipher_text = "";
+                
+        static void cipher(String plain_text, int key){
+                int n= plain_text.length();     // length of plain text
+                char [] plain= new char[n];
+                
+                for(int i=0;i<n;i++){
+                        plain[i] = plain_text.charAt(i);
+                }
+                
+                for(int i=0;i<n;i++){
+                        
+                        int integer = plain[i] ;
+                        
+                        if(integer>=65 && integer<=90)    // checking if text is uppercase alphabet
+                                cipher_text += (char)(((integer + key -65)%26)+65);
+                        
+                        else if(integer>=97 && integer<=122)      // checking if text is lowercase alphabet
+                                cipher_text += (char)(((integer + key -97)%26)+97);
+                        
+                        else    // if text is not alphabet than leaving it same as in plain text
+                                cipher_text += plain[i];
+                }
+                cipher_text+=" ";       // Adding white space after every word
+                        
+        }
+        public static void main(String [] args){
+                if(args.length == 1){   // Checking the number of keys entered as command line arguments
+                        if(Character.isDigit((args[0]).charAt(0))){     // Cheking whether the input is digit or not
+                                
+                                if(Integer.parseInt(args[0])>=0){    // Checking for input as non-negative
+                                        int key =  Integer.parseInt(args[0])%25;        // Making the key in range of 0-25 i.e. range of total 26
+                                        
+                                        Scanner sc = new Scanner(System.in);
+                                        String plain_text = sc.nextLine();      // Taking input as plain_text
+                                        
+                                        System.out.println("Plain text: "+plain_text);
+                                        System.out.print("Cipher text: ");
+                                        
+                                        String [] arrOfPlainText = plain_text.split(" ");       // Splitting the string through whitespaces
+                                        
+                                        for(String k:arrOfPlainText){
+                                                cipher(k,key);  // Converting each word of string into cipher text
+                                        }
+                                        
+                                        System.out.print(cipher_text);  // final result
+                                }
+                                else{
+                                        System.out.printf("Key must be a non-negative integer");
+                                }
+                        }
+                        else{
+                                System.out.printf("Key can be just a non-negative integer");
+                        }
+                }
+                else{
+                        System.out.printf("You are supposed to enter just one key!! Please try again.");
+                }
+        }
+        
+}
